@@ -1,0 +1,9 @@
+development: &dev
+  kannel_url: http://localhost:13013
+  username: kannel
+  password: rails
+  dlr_url: localhost:3000
+  api_secret: test
+
+test:
+  <<: *dev

@@ -1,0 +1,1 @@
+KannelRails::Handlers.register(EchoHandler)

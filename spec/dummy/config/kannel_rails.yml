@@ -1,8 +1,9 @@
 development: &dev
-  kannel_url: http://localhost:13013
+  kannel_url: http://localhost
+  sendsms_port: 13013
   username: kannel
   password: rails
-  dlr_url: localhost:3000
+  dlr_mask: 31
   api_secret: test
 
 test:

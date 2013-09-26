@@ -20,10 +20,12 @@ Sample content:
 
 ```yaml
 development:
-  kannel_url: http://kannel_server:13013 # Kannel smsbox sendsms-port
+  kannel_url: http://kannel_server # Kannel server host
+  sendsms_port: 13013 # Kannel sendsms port
   username: username # Kannel sendsms-user username
   password: password # Kannel sendsms-user password
   api_secret: testing # A secret key you will also configure in Kannel for extra security
+  dlr_mask: 31 # Set this if you want to receive delivery reports from Kannel.
 ```
 
 In config/routes.rb, add:
@@ -50,6 +52,12 @@ Sending an SMS is as simple as:
 KannelRails.send_message("+639001234567", "Hello World!")
 ```
 
+You can pass extra parameters that Kannel accepts. For example, to send a flash message:
+
+```ruby
+KannelRails.send_message("+639001234567", "Hello Flash!", :mclass => 0)
+```
+
 ### Receiving SMS
 
 To handle incoming SMS, create handler classes and register them.
@@ -65,3 +73,15 @@ Register the handler class in config/initializers/sms_handlers.rb (or some other
 ```ruby
 KannelRails::Handlers.register HandlerClass
 ```
+
+### Delivery Reports
+
+To receive delivery reports, you must have the dlr_mask set. Check Kannel docs for possible values.
+
+```ruby
+dlr_url = "http://rails_app/some_endpoint?msg_id=123&type=%d&smsc_id=%i"
+
+KannelRails.send_message("+639001234567", "Hello World!", 'dlr-url' => dlr_url)
+```
+
+Refer to kannel docs for %d, %i, etc. You want to provide a unique msg id here (doesnt have to be called msg_id) so that you can match the delivery report to the corresponding message you sent.

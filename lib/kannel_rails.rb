@@ -6,16 +6,25 @@ require "net/http"
 
 module KannelRails
 
-  def self.send_message(recipient, message)
-    request_url = config.kannel_url.chomp('/') + "/cgi-bin/sendsms?" +
-                  "username=#{CGI.escape(config.username.to_s)}&password=#{CGI.escape(config.password.to_s)}" +
-                  "&to=#{CGI.escape(recipient.to_s)}&text=#{CGI.escape(message.to_s)}"
+  def self.send_message(recipient, message, options = {})
+    query_hash = {
+      :username   => config.username.to_s,
+      :password   => config.password.to_s,
+      :to         => recipient.to_s,
+      :text       => message.to_s
+    }.merge!(options)
 
-    response = Net::HTTP.get_response(URI.parse(
-      request_url
-    ))
+    request_url = config.kannel_url.merge('/cgi-bin/sendsms')
+    request_url.query = query_hash.to_query
+    request_url.port = config.sendsms_port
 
-    response.is_a? Net::HTTPSuccess
+    response = Net::HTTP.get_response(request_url)
+
+    if response.is_a? Net::HTTPSuccess
+      return response
+    else
+      return false
+    end
   end
 
   def self.config

@@ -8,7 +8,8 @@ describe KannelRails::Config do
   end
 
   it "should get correct values" do
-    KannelRails.config.kannel_url.should == "http://localhost:13013"
+    KannelRails.config.kannel_url.should == URI.parse("http://localhost")
+    KannelRails.config.sendsms_port.should == 13013
     KannelRails.config.username.should == "kannel"
     KannelRails.config.password.should == "rails"
     KannelRails.config.dlr_url.should == "localhost:3000"

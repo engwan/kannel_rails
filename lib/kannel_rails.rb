@@ -8,11 +8,14 @@ module KannelRails
 
   def self.send_message(recipient, message, options = {})
     query_hash = {
-      :username   => config.username.to_s,
-      :password   => config.password.to_s,
-      :to         => recipient.to_s,
-      :text       => message.to_s
+      :username   => config.username,
+      :password   => config.password,
+      :to         => recipient,
+      :text       => message,
+      :'dlr-mask' => config.dlr_mask
     }.merge!(options)
+
+    query_hash.delete_if { |k, v| v.to_s.blank? }
 
     request_url = config.kannel_url.merge('/cgi-bin/sendsms')
     request_url.query = query_hash.to_query

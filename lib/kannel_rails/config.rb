@@ -8,7 +8,7 @@ class KannelRails::Config
   attr_accessor :username
   attr_accessor :password
 
-  attr_accessor :dlr_url
+  attr_accessor :dlr_mask
   attr_accessor :api_secret
 
   def initialize(config_hash = {})
@@ -19,7 +19,7 @@ class KannelRails::Config
     self.username = config_hash['username']
     self.password = config_hash['password']
 
-    self.dlr_url = config_hash['dlr_url']
+    self.dlr_mask = config_hash['dlr_mask']
     self.api_secret = config_hash['api_secret']
   end
 

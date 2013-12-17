@@ -12,9 +12,15 @@ module KannelRails
       :password   => config.password,
       :to         => recipient,
       :text       => message,
+      :'dlr-url'  => config.dlr_url,
       :'dlr-mask' => config.dlr_mask
-    }.merge!(options)
+    }
 
+    if config.dlr_url and options[:msg_id]
+      query_hash[:'dlr-url'] = config.dlr_url.sub('$msg_id', options[:msg_id])
+    end
+
+    query_hash.merge!(options)
     query_hash.delete_if { |k, v| v.to_s.blank? }
 
     request_url = config.kannel_url.merge('/cgi-bin/sendsms')

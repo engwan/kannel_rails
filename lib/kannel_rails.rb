@@ -17,7 +17,7 @@ module KannelRails
     }
 
     if config.dlr_url and options[:msg_id]
-      query_hash[:'dlr-url'] = config.dlr_url.sub('$msg_id', options[:msg_id])
+      query_hash[:'dlr-url'] = config.dlr_url.sub('$msg_id', options[:msg_id].to_s)
     end
 
     query_hash.merge!(options)

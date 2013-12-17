@@ -8,7 +8,7 @@ module KannelRails
         reply = ""
 
         KannelRails::Handlers.each do |handler_class|
-          handler = handler_class.new(params[:from], params[:text])
+          handler = handler_class.new(params)
 
           if handler.handle?
             reply = handler.invoke

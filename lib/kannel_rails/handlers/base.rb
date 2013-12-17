@@ -1,10 +1,11 @@
 class KannelRails::Handlers::Base
 
-  attr_accessor :sender, :message
+  attr_accessor :params, :sender, :message
 
-  def initialize(sender, message)
-    self.sender = sender
-    self.message = message
+  def initialize(params)
+    self.params = params
+    self.sender = params[:from]
+    self.message = params[:text]
   end
 
   def handle?

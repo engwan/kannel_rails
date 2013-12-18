@@ -93,3 +93,10 @@ KannelRails.send_message("+639001234567", "Hello World!", :msg_id => '1234')
 ```
 
 This will result in Kannel calling something similar to the URL: `http://rails_app/some_endpoint?msg_id=1234&type=1&smsc_id=the_smsc_id`
+
+### Sending and receiving Unicode SMS
+
+If your message text contains characters not in the [GSM charset](http://en.wikipedia.org/wiki/GSM_03.38), it will be automatically sent as Unicode by setting the param `coding=2`. Kannel should be able to handle this and send the message properly.
+
+To receive Unicode SMS, just set `mo-recode = true` in your Kannel smsbox configuration so that everything the server receives will be in UTF-8.
+

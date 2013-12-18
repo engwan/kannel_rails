@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require "kannel_rails/engine"
 require "kannel_rails/config"
 require "kannel_rails/handlers"
@@ -6,6 +8,9 @@ require "net/http"
 
 module KannelRails
 
+  GSM_7BIT = "@£$¥èéùìòÇ\nØø\rÅåΔ_ΦΓΛΩΠΨΣΘΞÆæßÉ !\"#¤%&'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà";
+  GSM_7BIT_EX = "^{}\[~]|€";
+
   def self.send_message(recipient, message, options = {})
     query_hash = {
       :username   => config.username,
@@ -13,11 +18,16 @@ module KannelRails
       :to         => recipient,
       :text       => message,
       :'dlr-url'  => config.dlr_url,
-      :'dlr-mask' => config.dlr_mask
+      :'dlr-mask' => config.dlr_mask,
+      :charset    => 'utf-8'
     }
 
     if config.dlr_url and options[:msg_id]
       query_hash[:'dlr-url'] = config.dlr_url.sub('$msg_id', options[:msg_id].to_s)
+    end
+
+    if query_hash[:text] and !/\A[#{GSM_7BIT + GSM_7BIT_EX}]*\z/.match(query_hash[:text].to_s)
+      query_hash[:coding] = 2
     end
 
     query_hash.merge!(options)

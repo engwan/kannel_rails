@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kannel_rails (0.0.8)
+    kannel_rails (0.0.9)
       rails (>= 3.2)
 
 GEM

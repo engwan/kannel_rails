@@ -1,6 +1,5 @@
 module KannelRails
   class SmsController < ApplicationController
-    unloadable
 
     def receive_message
       if KannelRails.config.api_secret and KannelRails.config.api_secret != params[:api_secret]
@@ -8,7 +7,8 @@ module KannelRails
       else
         reply = ""
 
-        KannelRails::Handlers.each do |handler_class|
+        KannelRails::Handlers.each do |h|
+          handler_class = h.is_a?(String) ? h.constantize : h
           handler = handler_class.new(params)
 
           if handler.handle?

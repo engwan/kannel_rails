@@ -70,7 +70,7 @@ Sample handler is in `spec/dummy/lib/echo_handler.rb`
 Register the handler class in `config/initializers/sms_handlers.rb` (or some other place if you want):
 
 ```ruby
-KannelRails::Handlers.register HandlerClass
+KannelRails::Handlers.register 'HandlerClass'
 ```
 
 ### Delivery Reports

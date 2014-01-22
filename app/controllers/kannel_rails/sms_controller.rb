@@ -1,5 +1,5 @@
 module KannelRails
-  class SmsController < ApplicationController
+  class SmsController < KannelRails::ApplicationController
 
     def receive_message
       if KannelRails.config.api_secret and KannelRails.config.api_secret != params[:api_secret]
